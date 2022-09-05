@@ -2,9 +2,9 @@
 require_once dirname(__FILE__) . "/config/app.php";
 require_once dirname(__FILE__) . "/config/database.php";
 
-$sql = "SELECT m.id, m.content, u.name 
+$sql = "SELECT m.id, m.content, u.name, m.user_id
         FROM `messages` AS m 
-        LEFT JOIN users u ON u.id = m.user_id";
+        JOIN users u ON u.id = m.user_id";
 $result = mysqli_query($con , $sql) ?? die('MySQL query error');
 ?>
 <!DOCTYPE html>
@@ -40,21 +40,37 @@ $result = mysqli_query($con , $sql) ?? die('MySQL query error');
         </tr>
         <?php
             if(isset($result)):
-				while($messages = mysqli_fetch_assoc($result)):
-                $a = '';
+                while($row = mysqli_fetch_assoc($result)){
+                    echo "<pre>";
+                    print_r($row);
+                    echo "</pre>";
+                    $messages[] = $row;
+                }
+                    
+				//while($messages = mysqli_fetch_assoc($result)):
+                
+                
+                foreach($messages as $message){
         ?>
                 <tr>
-                    <td><?php echo ($messages["id"]); ?></td>
-                    <td><?php echo ($messages["name"]); ?></td>
-                    <td><?php echo ($messages["content"]); ?></td>
+                    <td><?php echo ($message["id"]); ?></td>
+                    <td><?php echo ($message["name"]); ?></td>
+                    <td><?php echo ($message["content"]); ?></td>
                     <td>
-                        <a href="message/edit.php?id=<?php echo $messages['id']; ?>">修改</a> 
-                        <a href="message/destroy.php?id=<?php echo $messages['id']; ?>">刪除</a> 
+						<?php
+						
+							if(isset($_SESSION["id"]) && $_SESSION["id"] == $message["user_id"]):
+						?>
+								<a href="message/edit.php?id=<?php echo $message['id']; ?>">修改</a> 
+								<a href="message/destroy.php?id=<?php echo $message['id']; ?>">刪除</a> 
+						<?php
+							endif;
+						?>
                     </td>
                 </tr>
         <?php
-				endwhile;
-			
+				//endwhile;
+                }
 				mysqli_free_result($result);
             endif;
             //Closing the statement

@@ -5,7 +5,7 @@
     $password = md5($_POST["user_password"]);
 
     $sql = "SELECT * FROM `users` WHERE email = '". $email . "' AND password = '". $password ."'";
-    global $con;
+
     $result = mysqli_query($con , $sql) or die('MySQL query error');
     $user = mysqli_fetch_array($result);
     if($user == ""){

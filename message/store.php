@@ -8,7 +8,7 @@
     $today = date("Y-m-d H:i:s");
     $sql = "INSERT INTO `messages` (user_id, content, created_at, updated_at) 
             VALUES ('". $userId ."', '" . $content . "', '". $today . "', '". $today . "')";
-    global $con;
+
     $result = mysqli_query($con , $sql) ?? die('MySQL query error');
     echo "<script type='text/javascript'>";
     echo "alert('新增留言成功');";

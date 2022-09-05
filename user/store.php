@@ -8,10 +8,11 @@
 
     $sql = "SELECT * FROM `users` WHERE email = '". $email . "'";
     
+	//$result = mysqli_query($con , $sql) ? mysqli_query($con , $sql)  :  die("MySQL query error");
     $result = mysqli_query($con , $sql) ?? die("MySQL query error");
     $user = mysqli_fetch_array($result);
 
-    if($user != "") {
+    if(isset($user) && $user != "") {
         echo "<script type='text/javascript'>";
         echo "alert('已經辦過帳號囉');";
         echo "location.href='login.php';";

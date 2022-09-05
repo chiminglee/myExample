@@ -7,7 +7,7 @@
     
     $id = $_GET["id"];
     $sql = "DELETE FROM `messages` WHERE id = ". $id ."";
-    global $con;
+
     $result = mysqli_query($con , $sql) ?? die('MySQL query error');
     echo "<script type='text/javascript'>";
     echo "alert('刪除留言成功');";
